@@ -1,0 +1,63 @@
+{
+  "//": "示例配置模板 —— 复制为 config.json 后，把 outbounds 里的占位节点换成你自己服务商的节点。工具箱会自动从 mixed 入站读取代理端口(此处 2080)。",
+  "log": {
+    "level": "info",
+    "output": "sing-box.log",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui"
+    },
+    "cache_file": {
+      "enabled": true
+    }
+  },
+  "dns": {
+    "servers": [
+      { "tag": "google", "address": "tls://8.8.8.8" },
+      { "tag": "local", "address": "223.5.5.5", "detour": "direct" }
+    ],
+    "final": "google",
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 2080
+    },
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-box",
+      "address": ["172.19.0.1/30"],
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "//": "把下面替换成你服务商提供的节点(vless/vmess/trojan/shadowsocks 等)",
+      "type": "shadowsocks",
+      "tag": "PROXY",
+      "server": "your-server.example.com",
+      "server_port": 8388,
+      "method": "aes-256-gcm",
+      "password": "REPLACE_WITH_YOUR_PASSWORD"
+    },
+    { "type": "direct", "tag": "direct" }
+  ],
+  "route": {
+    "rules": [
+      { "action": "sniff" },
+      { "protocol": "dns", "action": "hijack-dns" },
+      { "ip_is_private": true, "outbound": "direct" }
+    ],
+    "final": "PROXY",
+    "auto_detect_interface": true
+  }
+}

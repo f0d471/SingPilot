@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 650" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f3460"/>
+      <stop offset="100%" stop-color="#533483"/>
+    </linearGradient>
+    <linearGradient id="menuGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e94560"/>
+      <stop offset="100%" stop-color="#e94560"/>
+    </linearGradient>
+    <linearGradient id="userGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1b9c85"/>
+      <stop offset="100%" stop-color="#0e7a6a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/>
+    </marker>
+    <marker id="arrowOrangeL" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#ff6b6b"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00d4ff"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="650" rx="12" fill="url(#bg)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="820" height="44" rx="12" fill="url(#header)"/>
+  <rect x="0" y="22" width="820" height="22" fill="url(#header)"/>
+  <text x="410" y="29" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Sing-Box Toolkit — Architecture (11 menu items)</text>
+
+  <!-- ===== Layer 1: Entry Point ===== -->
+  <rect x="310" y="56" width="200" height="36" rx="8" fill="url(#menuGrad)" opacity="0.95" filter="url(#glow)"/>
+  <text x="410" y="79" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">manage.bat</text>
+
+  <!-- Left: Human user -->
+  <text x="120" y="64" text-anchor="middle" fill="#aaa" font-size="11">User</text>
+  <text x="120" y="80" text-anchor="middle" fill="#666" font-size="9">Double-click .bat</text>
+
+  <!-- Right: AI agent -->
+  <text x="700" y="64" text-anchor="middle" fill="#aaa" font-size="11">AI Agent</text>
+  <text x="700" y="80" text-anchor="middle" fill="#666" font-size="9">Scripts / API calls</text>
+
+  <!-- Arrows from both sides to manage.bat -->
+  <line x1="170" y1="74" x2="305" y2="74" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowOrange)"/>
+  <line x1="650" y1="74" x2="515" y2="74" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowOrangeL)"/>
+
+  <!-- ===== Layer 2: Menu Engine ===== -->
+  <line x1="410" y1="92" x2="410" y2="108" stroke="#e94560" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <rect x="170" y="108" width="480" height="138" rx="8" fill="#0d1b3e" stroke="#e94560" stroke-width="1.5"/>
+  <text x="410" y="128" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">menu.ps1 — Interactive Menu Engine</text>
+  <line x1="190" y1="135" x2="630" y2="135" stroke="#333" stroke-width="0.5"/>
+
+  <!-- Row 1 -->
+  <rect x="190" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="238" y="159" text-anchor="middle" fill="#8cf" font-size="9">[1] Start</text>
+  <rect x="292" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="340" y="159" text-anchor="middle" fill="#8cf" font-size="9">[2] Stop</text>
+  <rect x="394" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="442" y="159" text-anchor="middle" fill="#8cf" font-size="9">[3] Status</text>
+  <rect x="496" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="544" y="159" text-anchor="middle" fill="#8cf" font-size="9">[4] Nodes</text>
+
+  <!-- Row 2 -->
+  <rect x="190" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="238" y="187" text-anchor="middle" fill="#8cf" font-size="9">[5] Update</text>
+  <rect x="292" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="340" y="187" text-anchor="middle" fill="#8cf" font-size="9">[6] WDog</text>
+  <rect x="394" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="442" y="187" text-anchor="middle" fill="#8cf" font-size="9">[7] Auto</text>
+  <rect x="496" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="544" y="187" text-anchor="middle" fill="#8cf" font-size="9">[8] Setup</text>
+
+  <!-- Row 3 — NEW items highlighted -->
+  <rect x="190" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
+  <text x="238" y="215" text-anchor="middle" fill="#fff" font-size="9">[9] Proxy</text>
+  <rect x="292" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
+  <text x="340" y="215" text-anchor="middle" fill="#fff" font-size="9">[10] DNS</text>
+  <rect x="394" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
+  <text x="442" y="215" text-anchor="middle" fill="#fff" font-size="9">[11] Logs</text>
+  <rect x="496" y="200" width="95" height="22" rx="5" fill="#e94560"/>
+  <text x="544" y="215" text-anchor="middle" fill="#fff" font-size="9">[0] Exit</text>
+
+  <text x="588" y="162" fill="#1b9c85" font-size="8">NEW</text>
+  <line x1="588" y1="164" x2="588" y2="218" stroke="#1b9c85" stroke-width="0.5"/>
+
+  <!-- ===== Layer 3: Scripts ===== -->
+  <line x1="260" y1="246" x2="180" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <line x1="410" y1="246" x2="410" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <line x1="560" y1="246" x2="640" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <rect x="40" y="280" width="740" height="100" rx="8" fill="#0d1b3e" stroke="#1a3a5c" stroke-width="1"/>
+  <text x="60" y="300" fill="#00d4ff" font-size="12" font-weight="bold">scripts/</text>
+
+  <!-- Script row 1 -->
+  <rect x="55" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
+  <text x="98" y="325" text-anchor="middle" fill="#fff" font-size="9">start.ps1</text>
+  <rect x="146" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
+  <text x="189" y="325" text-anchor="middle" fill="#fff" font-size="9">stop.ps1</text>
+  <rect x="237" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
+  <text x="280" y="325" text-anchor="middle" fill="#fff" font-size="9">status.ps1</text>
+  <rect x="328" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
+  <text x="371" y="325" text-anchor="middle" fill="#fff" font-size="9">update.ps1</text>
+  <rect x="419" y="310" width="95" height="22" rx="5" fill="#533483"/>
+  <text x="467" y="325" text-anchor="middle" fill="#fff" font-size="9">watchdog.ps1</text>
+  <rect x="520" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
+  <text x="563" y="325" text-anchor="middle" fill="#fff" font-size="9">setup.ps1</text>
+  <rect x="611" y="310" width="85" height="22" rx="5" fill="#1b9c85"/>
+  <text x="654" y="325" text-anchor="middle" fill="#fff" font-size="9">sysproxy.ps1</text>
+
+  <!-- Script row 2 -->
+  <rect x="55" y="338" width="85" height="22" rx="5" fill="#1b9c85"/>
+  <text x="98" y="353" text-anchor="middle" fill="#fff" font-size="9">dnstool.ps1</text>
+  <rect x="146" y="338" width="85" height="22" rx="5" fill="#1b9c85"/>
+  <text x="189" y="353" text-anchor="middle" fill="#fff" font-size="9">logview.ps1</text>
+  <rect x="237" y="338" width="176" height="22" rx="5" fill="#1b9c85"/>
+  <text x="325" y="353" text-anchor="middle" fill="#fff" font-size="9">env.ps1 (core engine)</text>
+
+  <!-- ===== Layer 4: sing-box ===== -->
+  <line x1="230" y1="380" x2="230" y2="420" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="590" y1="380" x2="590" y2="420" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="100" y="420" width="260" height="70" rx="8" fill="url(#userGrad)" opacity="0.9"/>
+  <text x="230" y="445" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">sing-box.exe</text>
+  <text x="230" y="465" text-anchor="middle" fill="#d4f5e9" font-size="10">user downloads from GitHub</text>
+  <text x="230" y="482" text-anchor="middle" fill="#8dd" font-size="10">TUN · DNS · Routing · Clash API</text>
+
+  <rect x="460" y="420" width="260" height="70" rx="8" fill="url(#userGrad)" opacity="0.9"/>
+  <text x="590" y="445" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">config.json</text>
+  <text x="590" y="465" text-anchor="middle" fill="#d4f5e9" font-size="10">user obtains from provider</text>
+  <text x="590" y="482" text-anchor="middle" fill="#8dd" font-size="10">Inbounds · Outbounds · Rules · DNS · Log</text>
+
+  <!-- ===== Footer: Watchdog & Dashboard ===== -->
+  <line x1="230" y1="490" x2="230" y2="520" stroke="#00d4ff" stroke-width="1"/>
+  <line x1="590" y1="490" x2="590" y2="520" stroke="#00d4ff" stroke-width="1"/>
+
+  <rect x="60" y="520" width="360" height="68" rx="8" fill="#0d1b3e" stroke="#533483" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="240" y="542" text-anchor="middle" fill="#b388ff" font-size="11" font-weight="bold">Windows Scheduled Tasks</text>
+  <text x="240" y="560" text-anchor="middle" fill="#888" font-size="9">Watchdog (5min) · DailyRestart (4am) · MemoryGuard (10min)</text>
+  <text x="240" y="576" text-anchor="middle" fill="#888" font-size="9">Sing-Box AutoStart (boot) · System Proxy (registry)</text>
+
+  <rect x="460" y="520" width="300" height="68" rx="8" fill="#0d1b3e" stroke="#1b9c85" stroke-width="1"/>
+  <text x="610" y="542" text-anchor="middle" fill="#4db6ac" font-size="11" font-weight="bold">YACD Dashboard</text>
+  <text x="610" y="560" text-anchor="middle" fill="#888" font-size="9">http://127.0.0.1:9090/ui</text>
+  <text x="610" y="576" text-anchor="middle" fill="#888" font-size="9">Proxies · Rules · Connections · Logs</text>
+
+  <!-- Bottom hint -->
+  <text x="410" y="610" text-anchor="middle" fill="#444" font-size="9">All functions as files + commands — AI agents can read, call, and control everything</text>
+  <text x="410" y="628" text-anchor="middle" fill="#1b9c85" font-size="8">[9][10][11] = new in v1.1 — System Proxy / DNS Tools / Log Viewer</text>
+</svg>

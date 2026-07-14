@@ -1,0 +1,22 @@
+# 用户自备的二进制与配置（含真实节点/密钥，切勿提交）
+sing-box.exe
+config.json
+config.backup.json
+
+# 运行时数据
+logs/
+backup/
+*.log
+
+# 本机专属快捷方式（内嵌绝对路径，因机而异）
+*.lnk
+
+# 编辑器 / AI 工具
+.claude/
+.vscode/
+.idea/
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+.DS_Store

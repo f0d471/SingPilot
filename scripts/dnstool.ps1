@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - DNS Tools
+﻿# SingPilot - DNS Tools
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 

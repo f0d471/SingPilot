@@ -1,4 +1,4 @@
-# Sing-Box Toolkit - 健康监控看门狗
+# SingPilot - 健康监控看门狗
 # 用法:
 #   watchdog.ps1                    单次检查（计划任务调用）
 #   watchdog.ps1 -SetupTask         交互式安装（菜单调用）

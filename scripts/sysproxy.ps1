@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - System Proxy Toggle
+﻿# SingPilot - System Proxy Toggle
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 

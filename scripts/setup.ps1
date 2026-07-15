@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - Setup Wizard
+﻿# SingPilot - Setup Wizard
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 

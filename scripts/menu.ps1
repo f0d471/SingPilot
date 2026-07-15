@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - Interactive Menu Engine
+﻿# SingPilot - Interactive Menu Engine
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 
@@ -11,7 +11,8 @@ function Show-Header {
     Clear-Host
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Cyan
-    Write-Host "  Sing-Box Manager v1.0" -ForegroundColor White
+    Write-Host "  SingPilot" -NoNewline -ForegroundColor White
+    Write-Host "  ~ AI-native control plane for sing-box" -ForegroundColor DarkGray
     Write-Host "========================================" -ForegroundColor Cyan
 }
 

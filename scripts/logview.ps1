@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - Log Viewer
+﻿# SingPilot - Log Viewer
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 

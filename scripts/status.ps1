@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - Detailed Status
+﻿# SingPilot - Detailed Status
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 $state = Get-ToolkitSnapshot

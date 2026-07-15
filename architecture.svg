@@ -1,161 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 650" font-family="Consolas, 'Courier New', monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 624" font-family="'Segoe UI', 'Inter', system-ui, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1a1a2e"/>
-      <stop offset="100%" stop-color="#16213e"/>
+      <stop offset="0%" stop-color="#0d1424"/>
+      <stop offset="100%" stop-color="#0a0f1c"/>
     </linearGradient>
-    <linearGradient id="header" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#0f3460"/>
-      <stop offset="100%" stop-color="#533483"/>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="55%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
     </linearGradient>
-    <linearGradient id="menuGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#e94560"/>
-      <stop offset="100%" stop-color="#e94560"/>
+    <linearGradient id="engine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#134e4a"/>
+      <stop offset="100%" stop-color="#0f3d3a"/>
     </linearGradient>
-    <linearGradient id="userGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#1b9c85"/>
-      <stop offset="100%" stop-color="#0e7a6a"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
     </filter>
-    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/>
-    </marker>
-    <marker id="arrowOrangeL" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-      <polygon points="10 0, 0 3.5, 10 7" fill="#ff6b6b"/>
-    </marker>
-    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#00d4ff"/>
-    </marker>
   </defs>
 
-  <!-- Background -->
-  <rect width="820" height="650" rx="12" fill="url(#bg)"/>
+  <rect width="880" height="624" rx="16" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="879" height="623" rx="16" fill="none" stroke="#1e293b" stroke-width="1"/>
 
-  <!-- Title bar -->
-  <rect x="0" y="0" width="820" height="44" rx="12" fill="url(#header)"/>
-  <rect x="0" y="22" width="820" height="22" fill="url(#header)"/>
-  <text x="410" y="29" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Sing-Box Toolkit — Architecture (11 menu items)</text>
+  <!-- ===== Header ===== -->
+  <circle cx="42" cy="42" r="11" fill="none" stroke="url(#brand)" stroke-width="2.5"/>
+  <circle cx="42" cy="42" r="3.5" fill="#38bdf8"/>
+  <text x="66" y="40" font-size="26" font-weight="700" fill="url(#brand)">SingPilot</text>
+  <text x="67" y="58" font-size="12.5" fill="#94a3b8">AI-native control plane for sing-box</text>
+  <text x="838" y="34" text-anchor="end" font-size="11" fill="#64748b">Windows · PowerShell · zero-dependency</text>
+  <text x="838" y="52" text-anchor="end" font-size="11" fill="#64748b">~30 KB of scripts</text>
 
-  <!-- ===== Layer 1: Entry Point ===== -->
-  <rect x="310" y="56" width="200" height="36" rx="8" fill="url(#menuGrad)" opacity="0.95" filter="url(#glow)"/>
-  <text x="410" y="79" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">manage.bat</text>
+  <!-- ===== Row A: two control sources ===== -->
+  <g filter="url(#soft)">
+    <rect x="40" y="86" width="378" height="54" rx="10" fill="#151f33" stroke="#2b3a55"/>
+    <rect x="462" y="86" width="378" height="54" rx="10" fill="#151f33" stroke="#2b3a55"/>
+  </g>
+  <circle cx="66" cy="113" r="9" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="66" y="117" text-anchor="middle" font-size="10">🧑</text>
+  <text x="86" y="109" font-size="13.5" font-weight="600" fill="#e2e8f0">You</text>
+  <text x="86" y="127" font-size="11" fill="#8ba0bd">double-click manage.bat → terminal menu</text>
 
-  <!-- Left: Human user -->
-  <text x="120" y="64" text-anchor="middle" fill="#aaa" font-size="11">User</text>
-  <text x="120" y="80" text-anchor="middle" fill="#666" font-size="9">Double-click .bat</text>
+  <circle cx="488" cy="113" r="9" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="488" y="117" text-anchor="middle" font-size="10">🤖</text>
+  <text x="508" y="109" font-size="13.5" font-weight="600" fill="#e2e8f0">AI Agent</text>
+  <text x="508" y="127" font-size="11" fill="#8ba0bd">read logs · run scripts · call Clash REST API</text>
 
-  <!-- Right: AI agent -->
-  <text x="700" y="64" text-anchor="middle" fill="#aaa" font-size="11">AI Agent</text>
-  <text x="700" y="80" text-anchor="middle" fill="#666" font-size="9">Scripts / API calls</text>
+  <!-- arrows into control plane -->
+  <line x1="229" y1="140" x2="229" y2="168" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="651" y1="140" x2="651" y2="168" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
 
-  <!-- Arrows from both sides to manage.bat -->
-  <line x1="170" y1="74" x2="305" y2="74" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowOrange)"/>
-  <line x1="650" y1="74" x2="515" y2="74" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowOrangeL)"/>
+  <!-- ===== Row B: Control plane ===== -->
+  <g filter="url(#soft)">
+    <rect x="40" y="170" width="800" height="192" rx="12" fill="#111a2b" stroke="#2b3a55"/>
+  </g>
+  <text x="58" y="196" font-size="13" font-weight="600" fill="#cbd5e1">manage.bat → menu.ps1</text>
+  <text x="58" y="212" font-size="10.5" fill="#64748b">interactive menu engine</text>
+  <!-- legend -->
+  <circle cx="612" cy="192" r="4" fill="#38bdf8"/><text x="622" y="196" font-size="10" fill="#8ba0bd">proxy</text>
+  <circle cx="672" cy="192" r="4" fill="#a78bfa"/><text x="682" y="196" font-size="10" fill="#8ba0bd">lifecycle</text>
+  <circle cx="748" cy="192" r="4" fill="#34d399"/><text x="758" y="196" font-size="10" fill="#8ba0bd">tools</text>
 
-  <!-- ===== Layer 2: Menu Engine ===== -->
-  <line x1="410" y1="92" x2="410" y2="108" stroke="#e94560" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <!-- action pills row 1 -->
+  <g font-size="11.5" fill="#dbe4f0">
+    <rect x="56"  y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="115" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[1]</tspan> Start</text>
+    <rect x="186" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="245" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[2]</tspan> Stop</text>
+    <rect x="316" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="375" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[3]</tspan> Status</text>
+    <rect x="446" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="505" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[4]</tspan> Nodes</text>
+    <rect x="576" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="635" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[5]</tspan> Update</text>
+    <rect x="706" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="765" y="243" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[6]</tspan> Watchdog</text>
+  </g>
+  <!-- action pills row 2 -->
+  <g font-size="11.5" fill="#dbe4f0">
+    <rect x="56"  y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="115" y="281" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[7]</tspan> Autostart</text>
+    <rect x="186" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="245" y="281" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[8]</tspan> Setup</text>
+    <rect x="316" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="375" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[9]</tspan> Sys Proxy</text>
+    <rect x="446" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="505" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[10]</tspan> DNS</text>
+    <rect x="576" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="635" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[11]</tspan> Logs</text>
+    <rect x="706" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="765" y="281" text-anchor="middle"><tspan fill="#fb7185" font-weight="700">[0]</tspan> Exit</text>
+  </g>
+  <!-- shared core strip -->
+  <rect x="56" y="306" width="768" height="38" rx="8" fill="#0e1626" stroke="#243349"/>
+  <text x="72" y="329" font-size="11.5" fill="#7dd3fc" font-weight="600">env.ps1</text>
+  <text x="132" y="329" font-size="11" fill="#8ba0bd">shared core — state snapshot · auto port detection · config parsing · path resolution</text>
 
-  <rect x="170" y="108" width="480" height="138" rx="8" fill="#0d1b3e" stroke="#e94560" stroke-width="1.5"/>
-  <text x="410" y="128" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">menu.ps1 — Interactive Menu Engine</text>
-  <line x1="190" y1="135" x2="630" y2="135" stroke="#333" stroke-width="0.5"/>
+  <!-- arrows to engine -->
+  <line x1="235" y1="362" x2="235" y2="392" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="645" y1="362" x2="645" y2="392" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
 
-  <!-- Row 1 -->
-  <rect x="190" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="238" y="159" text-anchor="middle" fill="#8cf" font-size="9">[1] Start</text>
-  <rect x="292" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="340" y="159" text-anchor="middle" fill="#8cf" font-size="9">[2] Stop</text>
-  <rect x="394" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="442" y="159" text-anchor="middle" fill="#8cf" font-size="9">[3] Status</text>
-  <rect x="496" y="144" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="544" y="159" text-anchor="middle" fill="#8cf" font-size="9">[4] Nodes</text>
+  <!-- ===== Row C: engine (user-supplied) ===== -->
+  <g filter="url(#soft)">
+    <rect x="40" y="394" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
+    <rect x="450" y="394" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
+  </g>
+  <text x="235" y="422" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">sing-box.exe</text>
+  <text x="235" y="441" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you download it from the official releases</text>
+  <text x="235" y="459" text-anchor="middle" font-size="10.5" fill="#5eead4">TUN · DNS · Routing · Clash API</text>
 
-  <!-- Row 2 -->
-  <rect x="190" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="238" y="187" text-anchor="middle" fill="#8cf" font-size="9">[5] Update</text>
-  <rect x="292" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="340" y="187" text-anchor="middle" fill="#8cf" font-size="9">[6] WDog</text>
-  <rect x="394" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="442" y="187" text-anchor="middle" fill="#8cf" font-size="9">[7] Auto</text>
-  <rect x="496" y="172" width="95" height="22" rx="5" fill="#1a3a5c"/>
-  <text x="544" y="187" text-anchor="middle" fill="#8cf" font-size="9">[8] Setup</text>
+  <text x="645" y="422" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">config.json</text>
+  <text x="645" y="441" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you bring it from your provider</text>
+  <text x="645" y="459" text-anchor="middle" font-size="10.5" fill="#5eead4">Inbounds · Outbounds · Rules · DNS</text>
 
-  <!-- Row 3 — NEW items highlighted -->
-  <rect x="190" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
-  <text x="238" y="215" text-anchor="middle" fill="#fff" font-size="9">[9] Proxy</text>
-  <rect x="292" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
-  <text x="340" y="215" text-anchor="middle" fill="#fff" font-size="9">[10] DNS</text>
-  <rect x="394" y="200" width="95" height="22" rx="5" fill="#1b9c85"/>
-  <text x="442" y="215" text-anchor="middle" fill="#fff" font-size="9">[11] Logs</text>
-  <rect x="496" y="200" width="95" height="22" rx="5" fill="#e94560"/>
-  <text x="544" y="215" text-anchor="middle" fill="#fff" font-size="9">[0] Exit</text>
+  <!-- arrows to guardian band -->
+  <line x1="235" y1="474" x2="235" y2="502" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="645" y1="474" x2="645" y2="502" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
 
-  <text x="588" y="162" fill="#1b9c85" font-size="8">NEW</text>
-  <line x1="588" y1="164" x2="588" y2="218" stroke="#1b9c85" stroke-width="0.5"/>
+  <!-- ===== Row D: guardian + dashboard ===== -->
+  <rect x="40" y="504" width="520" height="82" rx="12" fill="#141726" stroke="#3b2f5e"/>
+  <text x="60" y="528" font-size="13" font-weight="600" fill="#c4b5fd">🛡 Guardian — Windows Scheduled Tasks</text>
+  <text x="60" y="549" font-size="10.5" fill="#94a3b8">Health check every 5 min · daily restart 4 AM · memory guard every 10 min</text>
+  <text x="60" y="567" font-size="10.5" fill="#94a3b8">Auto-restart on freeze · rotates sing-box.log · boot autostart (SYSTEM)</text>
 
-  <!-- ===== Layer 3: Scripts ===== -->
-  <line x1="260" y1="246" x2="180" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
-  <line x1="410" y1="246" x2="410" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
-  <line x1="560" y1="246" x2="640" y2="280" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <rect x="580" y="504" width="260" height="82" rx="12" fill="#0f1f1c" stroke="#1c6b63"/>
+  <text x="600" y="528" font-size="13" font-weight="600" fill="#5eead4">📊 YACD Dashboard</text>
+  <text x="600" y="549" font-size="10.5" fill="#94a3b8">http://127.0.0.1:9090/ui</text>
+  <text x="600" y="567" font-size="10.5" fill="#94a3b8">Proxies · Rules · Connections · Logs</text>
 
-  <rect x="40" y="280" width="740" height="100" rx="8" fill="#0d1b3e" stroke="#1a3a5c" stroke-width="1"/>
-  <text x="60" y="300" fill="#00d4ff" font-size="12" font-weight="bold">scripts/</text>
-
-  <!-- Script row 1 -->
-  <rect x="55" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
-  <text x="98" y="325" text-anchor="middle" fill="#fff" font-size="9">start.ps1</text>
-  <rect x="146" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
-  <text x="189" y="325" text-anchor="middle" fill="#fff" font-size="9">stop.ps1</text>
-  <rect x="237" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
-  <text x="280" y="325" text-anchor="middle" fill="#fff" font-size="9">status.ps1</text>
-  <rect x="328" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
-  <text x="371" y="325" text-anchor="middle" fill="#fff" font-size="9">update.ps1</text>
-  <rect x="419" y="310" width="95" height="22" rx="5" fill="#533483"/>
-  <text x="467" y="325" text-anchor="middle" fill="#fff" font-size="9">watchdog.ps1</text>
-  <rect x="520" y="310" width="85" height="22" rx="5" fill="#0f3460"/>
-  <text x="563" y="325" text-anchor="middle" fill="#fff" font-size="9">setup.ps1</text>
-  <rect x="611" y="310" width="85" height="22" rx="5" fill="#1b9c85"/>
-  <text x="654" y="325" text-anchor="middle" fill="#fff" font-size="9">sysproxy.ps1</text>
-
-  <!-- Script row 2 -->
-  <rect x="55" y="338" width="85" height="22" rx="5" fill="#1b9c85"/>
-  <text x="98" y="353" text-anchor="middle" fill="#fff" font-size="9">dnstool.ps1</text>
-  <rect x="146" y="338" width="85" height="22" rx="5" fill="#1b9c85"/>
-  <text x="189" y="353" text-anchor="middle" fill="#fff" font-size="9">logview.ps1</text>
-  <rect x="237" y="338" width="176" height="22" rx="5" fill="#1b9c85"/>
-  <text x="325" y="353" text-anchor="middle" fill="#fff" font-size="9">env.ps1 (core engine)</text>
-
-  <!-- ===== Layer 4: sing-box ===== -->
-  <line x1="230" y1="380" x2="230" y2="420" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-  <line x1="590" y1="380" x2="590" y2="420" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-
-  <rect x="100" y="420" width="260" height="70" rx="8" fill="url(#userGrad)" opacity="0.9"/>
-  <text x="230" y="445" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">sing-box.exe</text>
-  <text x="230" y="465" text-anchor="middle" fill="#d4f5e9" font-size="10">user downloads from GitHub</text>
-  <text x="230" y="482" text-anchor="middle" fill="#8dd" font-size="10">TUN · DNS · Routing · Clash API</text>
-
-  <rect x="460" y="420" width="260" height="70" rx="8" fill="url(#userGrad)" opacity="0.9"/>
-  <text x="590" y="445" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">config.json</text>
-  <text x="590" y="465" text-anchor="middle" fill="#d4f5e9" font-size="10">user obtains from provider</text>
-  <text x="590" y="482" text-anchor="middle" fill="#8dd" font-size="10">Inbounds · Outbounds · Rules · DNS · Log</text>
-
-  <!-- ===== Footer: Watchdog & Dashboard ===== -->
-  <line x1="230" y1="490" x2="230" y2="520" stroke="#00d4ff" stroke-width="1"/>
-  <line x1="590" y1="490" x2="590" y2="520" stroke="#00d4ff" stroke-width="1"/>
-
-  <rect x="60" y="520" width="360" height="68" rx="8" fill="#0d1b3e" stroke="#533483" stroke-width="1" stroke-dasharray="6,3"/>
-  <text x="240" y="542" text-anchor="middle" fill="#b388ff" font-size="11" font-weight="bold">Windows Scheduled Tasks</text>
-  <text x="240" y="560" text-anchor="middle" fill="#888" font-size="9">Watchdog (5min) · DailyRestart (4am) · MemoryGuard (10min)</text>
-  <text x="240" y="576" text-anchor="middle" fill="#888" font-size="9">Sing-Box AutoStart (boot) · System Proxy (registry)</text>
-
-  <rect x="460" y="520" width="300" height="68" rx="8" fill="#0d1b3e" stroke="#1b9c85" stroke-width="1"/>
-  <text x="610" y="542" text-anchor="middle" fill="#4db6ac" font-size="11" font-weight="bold">YACD Dashboard</text>
-  <text x="610" y="560" text-anchor="middle" fill="#888" font-size="9">http://127.0.0.1:9090/ui</text>
-  <text x="610" y="576" text-anchor="middle" fill="#888" font-size="9">Proxies · Rules · Connections · Logs</text>
-
-  <!-- Bottom hint -->
-  <text x="410" y="610" text-anchor="middle" fill="#444" font-size="9">All functions as files + commands — AI agents can read, call, and control everything</text>
-  <text x="410" y="628" text-anchor="middle" fill="#1b9c85" font-size="8">[9][10][11] = new in v1.1 — System Proxy / DNS Tools / Log Viewer</text>
+  <!-- footer -->
+  <text x="440" y="608" text-anchor="middle" font-size="10.5" fill="#546178">Every function is a file or a command — humans and AI agents drive the exact same controls.</text>
 </svg>

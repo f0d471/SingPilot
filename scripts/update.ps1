@@ -1,4 +1,4 @@
-﻿# Sing-Box Toolkit - Update Config
+﻿# SingPilot - Update Config
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 Write-Host "========================================" -ForegroundColor Cyan

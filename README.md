@@ -1,17 +1,21 @@
-<h1 align="center">Sing-Box Toolkit</h1>
+<h1 align="center">SingPilot</h1>
 
 <p align="center">
-  <b>AI-Friendly · CLI-First · Zero-Dependency</b>
+  <b>AI-native control plane for sing-box</b>
   <br>
-  <sub>sing-box 通用启动器 & 健康守护</sub>
+  <sub>终端菜单 · 自动健康守护 · 零依赖 · 可被 AI Agent 编程控制</sub>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows-blue?logo=windows" alt="Platform">
   <img src="https://img.shields.io/badge/powershell-5.1%2B-blue?logo=powershell" alt="PowerShell">
   <img src="https://img.shields.io/badge/dependencies-zero-brightgreen" alt="Dependencies">
-  <img src="https://img.shields.io/badge/size-~20KB-lightgrey" alt="Size">
+  <img src="https://img.shields.io/badge/size-~30KB-lightgrey" alt="Size">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+</p>
+
+<p align="center">
+  <img src="menu.svg" width="640" alt="SingPilot terminal menu">
 </p>
 
 ---
@@ -28,9 +32,9 @@
 
 市面上大部分用户会选择 200MB+ 的 Electron 桌面应用来获得友好界面。
 
-这个工具箱走了另一条路：**几个 KB 的脚本，给 sing-box 配上终端菜单、自动健康监控、零依赖**。
+**SingPilot** 走了另一条路：**几十 KB 的纯 PowerShell 脚本，给 sing-box 配上终端菜单、自动健康守护、零依赖**。
 
-而且因为一切操作都是文件 + 命令，**AI Agent（Claude Code、Copilot、Cursor）可以读取日志、诊断问题、编程式控制代理。** 目前没有任何其他代理管理工具能做到这一点。
+而且因为一切操作都是文件 + 命令，**AI Agent（Claude Code、Copilot、Cursor）可以读取日志、诊断问题、编程式控制代理**——这正是 "control plane"（控制平面）的含义：人点菜单，AI 调脚本，走的是同一套控制入口。
 
 ### 架构
 
@@ -105,7 +109,7 @@ powershell -File scripts\start.ps1                  # 重启代理
 ### 目录结构
 
 ```
-sing-box-toolkit/
+singpilot/
 ├── manage.bat              ← 🔥 唯一入口
 ├── diagnose.bat            ← 一键网络诊断
 ├── sing-box.exe            ← 你放进来
@@ -157,11 +161,11 @@ A: 不能。两个 TUN 会冲突。二选一。
 
 ### What
 
-A lightweight launcher and health guardian for [sing-box](https://github.com/Sagernet/sing-box).
+**SingPilot** is an AI-native control plane for [sing-box](https://github.com/Sagernet/sing-box) — a lightweight launcher and health guardian in a few tens of KB of pure PowerShell.
 
-No Electron. No Node.js. No bloat. Just a few KB of scripts that give sing-box a clean terminal menu, automatic health monitoring, and zero-dependency operation.
+No Electron. No Node.js. No bloat. Just scripts that give sing-box a clean terminal menu, automatic health monitoring, and zero-dependency operation.
 
-**Designed for both humans and AI agents.** Every function is a script file or REST API call — AI tools (Claude Code, Copilot, Cursor) can read logs, diagnose issues, switch nodes, and restart the proxy programmatically.
+**Humans and AI agents drive the same controls.** Every function is a script file or REST API call — AI tools (Claude Code, Copilot, Cursor) can read logs, diagnose issues, switch nodes, and restart the proxy programmatically.
 
 ### Architecture
 

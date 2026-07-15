@@ -412,16 +412,26 @@ function Get-ClashApi {
     } catch { return $null }
 }
 
+# ---- 计划任务是否存在 ----
+# 只看 schtasks 的退出码会把"没装"和"没权限看"混为一谈：这些任务的身份是
+# SYSTEM，普通权限窗口查询会被拒，退出码同样是 1。两者错误文本不同：
+#   不存在   -> "The system cannot find the file specified." / "找不到"
+#   没权限   -> "Access is denied." / "拒绝访问"
+# 被拒恰恰说明任务是存在的（否则会先报找不到）。
+function Test-TaskExists {
+    param([string]$Name)
+    try {
+        $out = & schtasks /query /tn $Name 2>&1 | Out-String
+        if ($LASTEXITCODE -eq 0) { return $true }
+        if ($out -match 'Access is denied|拒绝访问') { return $true }
+        return $false
+    } catch { return $false }
+}
+
 # ---- 看门狗状态 ----
 function Test-WatchdogInstalled {
     $tasks = @("Sing-Box-Watchdog", "Sing-Box-DailyRestart", "Sing-Box-MemoryGuard")
-    $installed = 0
-    foreach ($t in $tasks) {
-        try {
-            schtasks /query /tn $t 2>$null | Out-Null
-            if ($LASTEXITCODE -eq 0) { $installed++ }
-        } catch { }
-    }
+    $installed = @($tasks | Where-Object { Test-TaskExists $_ }).Count
     return @{
         Installed = ($installed -gt 0)
         AllThree  = ($installed -eq 3)
@@ -431,10 +441,7 @@ function Test-WatchdogInstalled {
 
 # ---- 开机自启状态 ----
 function Test-AutostartInstalled {
-    try {
-        schtasks /query /tn "Sing-Box" 2>$null | Out-Null
-        return ($LASTEXITCODE -eq 0)
-    } catch { return $false }
+    return (Test-TaskExists "Sing-Box")
 }
 
 # ---- 状态快照（供菜单使用） ----

@@ -77,7 +77,11 @@ function Start-SingBox {
         return $false
     }
     try {
-        Start-Process -FilePath $SingBoxPath -ArgumentList "run", "-c", $ConfigPath -Verb RunAs -WindowStyle Hidden
+        # -WorkingDirectory 不能省：看门狗是 SYSTEM 计划任务调起来的，工作目录默认
+        # 是 System32，而 config.json 里 log.output / external_ui 都是相对路径，
+        # 拉起来的 sing-box 会没有面板、日志写进 System32。
+        Start-Process -FilePath $SingBoxPath -ArgumentList "run", "-c", $ConfigPath `
+            -WorkingDirectory $ToolkitRoot -Verb RunAs -WindowStyle Hidden
         Start-Sleep -Seconds 4
         if (Test-SingBoxRunning) { Write-Log "INFO" "Started OK"; return $true }
         else { Write-Log "ERROR" "Start failed"; return $false }

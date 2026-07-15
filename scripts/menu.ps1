@@ -154,23 +154,14 @@ do {
             Pause-Menu
         }
         "7" {
+            # 交给 autostart.ps1 —— 这里原本重复实现了一遍注册逻辑，还漏了
+            # -WorkingDirectory，导致开机自启的 sing-box 工作目录是 System32，
+            # config.json 里的相对路径（log.output、external_ui）全部失效。
             if ($state.Autostart) {
-                Write-Host ""; Write-Host "Removing autostart..." -ForegroundColor Yellow
-                try { Unregister-ScheduledTask -TaskName "Sing-Box" -Confirm:$false -ErrorAction Stop; Write-Host "Done: disabled" -ForegroundColor Green } catch { Write-Host "Failed" -ForegroundColor Red }
+                & "$ScriptDir\autostart.ps1" -Remove
             } else {
-                Write-Host ""; Write-Host "Setting autostart..." -ForegroundColor Yellow
-                $exe = $ToolkitRoot + "\sing-box.exe"; $cfg = $ToolkitRoot + "\config.json"
-                $act = New-ScheduledTaskAction -Execute $exe -Argument "run -c `"$cfg`""
-                $trig = New-ScheduledTaskTrigger -AtStartup
-                $prin = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
-                $sets = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -MultipleInstances IgnoreNew
-                try {
-                    Unregister-ScheduledTask -TaskName "Sing-Box" -Confirm:$false -ErrorAction SilentlyContinue
-                    Register-ScheduledTask -TaskName "Sing-Box" -Action $act -Trigger $trig -Principal $prin -Settings $sets -Force | Out-Null
-                    Write-Host "Done: enabled" -ForegroundColor Green
-                } catch { Write-Host "Failed: $($_.Exception.Message)" -ForegroundColor Red }
+                & "$ScriptDir\autostart.ps1"
             }
-            Pause-Menu
         }
         "8" {
             & "$ScriptDir\setup.ps1"

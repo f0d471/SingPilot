@@ -291,4 +291,17 @@ No other dependencies.
 
 ### License
 
-MIT — scripts only. sing-box itself is [GPLv3](https://github.com/Sagernet/sing-box/blob/main/LICENSE) and must be downloaded separately.
+**MIT — 仅限本项目的脚本部分。**
+
+本仓库还再分发了第三方成果，各自授权见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)：
+
+- `ui/` 是 [YACD](https://github.com/haishanh/yacd) 面板的预编译产物 — **MIT**, Copyright (c) Haishan
+- YACD 内含字体 — Twemoji（CC-BY 4.0）、Inter（OFL 1.1）、Roboto Mono（Apache 2.0）
+- [sing-box](https://github.com/SagerNet/sing-box) 本身是 **GPL-3.0**，**不含在本仓库内**，需自行下载。SingPilot 只是以外部进程调用它并访问其 HTTP API，不构成衍生作品。
+
+### 免责声明
+
+本项目是一个**进程管理脚本**：它不提供、不内置、也不代售任何代理服务器或订阅节点，
+其本身不具备任何代理或加密通信能力——这些全部由使用者自行获取的 sing-box 与 config.json 提供。
+
+使用者须遵守所在国家和地区的法律法规，并自行承担使用后果。作者不对任何使用行为负责。

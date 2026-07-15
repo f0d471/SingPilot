@@ -3,10 +3,21 @@
     "level": "warn",
     "output": "sing-box.log"
   },
+
   "inbounds": [
     {
       "tag": "tun-in",
       "interface_name": "sing-box-tun"
     }
-  ]
+  ],
+
+  "$insertAfter": {
+    "route.rules": { "action": "hijack-dns" }
+  },
+  "route": {
+    "rules": [
+      { "clash_mode": "Global", "action": "route", "outbound": "PROXY" },
+      { "clash_mode": "Direct", "action": "route", "outbound": "direct" }
+    ]
+  }
 }

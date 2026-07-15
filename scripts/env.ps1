@@ -266,14 +266,108 @@ function Merge-ConfigObject {
 
 $Script:ConfigLocal = Join-Path $ToolkitRoot "config.local.json"
 
+# 按 "a.b.c" 取值 / 赋值 / 删除，供 $replace 使用
+function Get-PathValue {
+    param($Obj, [string]$Path)
+    $cur = $Obj
+    foreach ($seg in $Path -split '\.') {
+        if ($null -eq $cur) { return $null }
+        if ($cur.PSObject.Properties.Name -notcontains $seg) { return $null }
+        $cur = $cur.$seg
+    }
+    return $cur
+}
+function Set-PathValue {
+    param($Obj, [string]$Path, $Value)
+    $segs = @($Path -split '\.')
+    $cur = $Obj
+    for ($i = 0; $i -lt $segs.Count - 1; $i++) {
+        if ($cur.PSObject.Properties.Name -notcontains $segs[$i]) {
+            $cur | Add-Member -NotePropertyName $segs[$i] -NotePropertyValue ([PSCustomObject]@{}) -Force
+        }
+        $cur = $cur.($segs[$i])   # 必须加括号：$cur.$segs[$i] 会被解析成 ($cur.$segs)[$i]
+    }
+    $cur | Add-Member -NotePropertyName $segs[-1] -NotePropertyValue $Value -Force
+}
+function Remove-PathValue {
+    param($Obj, [string]$Path)
+    $segs = @($Path -split '\.')
+    $cur = $Obj
+    for ($i = 0; $i -lt $segs.Count - 1; $i++) {
+        if ($null -eq $cur -or $cur.PSObject.Properties.Name -notcontains $segs[$i]) { return }
+        $cur = $cur.($segs[$i])   # 同上，括号不能省
+    }
+    if ($null -ne $cur) { $cur.PSObject.Properties.Remove($segs[-1]) }
+}
+
 # 把 config.local.json 合并进指定的配置文件（原地改写）。返回是否真的合并了。
+#
+# 覆盖层支持一个 "$replace" 指令，列出要"整块替换"而非递归合并的路径：
+#     { "$replace": ["dns"], "dns": { ... } }
+# 之所以需要它：合并只能新增/覆盖字段，删不掉字段。而 DNS 迁移到新格式
+# 必须删掉旧的 address/strategy/fakeip —— 只能整块换。
 function Merge-LocalOverrides {
     param([string]$Path)
     if (-not (Test-Path $ConfigLocal)) { return $false }
     $overlay = Get-Content $ConfigLocal -Raw -Encoding UTF8 | ConvertFrom-Json
     $base    = Get-Content $Path -Raw -Encoding UTF8 | ConvertFrom-Json
-    $merged  = Merge-ConfigObject $base $overlay
-    $json    = $merged | ConvertTo-Json -Depth 100
+
+    $replacePaths = @()
+    if ($overlay.PSObject.Properties.Name -contains '$replace') {
+        $replacePaths = @($overlay.'$replace')
+        $overlay.PSObject.Properties.Remove('$replace')
+    }
+    foreach ($p in $replacePaths) {
+        $val = Get-PathValue $overlay $p
+        if ($null -ne $val) {
+            Set-PathValue $base $p $val
+            Remove-PathValue $overlay $p   # 已整块替换，别再进递归合并
+        }
+    }
+
+    # "$insertAfter" —— 把覆盖层的数组元素插到基础数组的指定位置，而不是追加到末尾。
+    # route.rules 是有序的（首个匹配生效），clash_mode 规则必须排在 DNS 劫持之后、
+    # 正常分流之前；追加到末尾等于永远轮不到，插到最前面又会让 DNS 查询被当普通流量代理走。
+    # 锚点是按内容找的（"插在最后一条 hijack-dns 之后"），不写死下标 ——
+    # 机场增删规则后位置会变，下标会错位。
+    if ($overlay.PSObject.Properties.Name -contains '$insertAfter') {
+        $specs = $overlay.'$insertAfter'
+        $overlay.PSObject.Properties.Remove('$insertAfter')
+        foreach ($spec in $specs.PSObject.Properties) {
+            # 注意别叫 $path —— PowerShell 变量名不区分大小写，会覆盖参数 $Path
+            $arrPath = $spec.Name
+            $anchor  = $spec.Value
+            $items   = @(Get-PathValue $overlay $arrPath)
+            if ($items.Count -eq 0) { continue }
+            $arr = @(Get-PathValue $base $arrPath)
+
+            $at = -1
+            for ($i = 0; $i -lt $arr.Count; $i++) {
+                $match = $true
+                foreach ($ap in $anchor.PSObject.Properties) {
+                    if ($arr[$i].PSObject.Properties.Name -notcontains $ap.Name -or
+                        $arr[$i].($ap.Name) -ne $ap.Value) { $match = $false; break }
+                }
+                if ($match) { $at = $i }   # 取最后一个匹配
+            }
+            if ($at -lt 0) {
+                # 锚点没找到就别硬插 —— 位置错了会静默改变分流行为。
+                # 抛出去让 update.ps1 回滚，好过装上一份坏配置。
+                throw "`$insertAfter: 在 $arrPath 里找不到锚点 $($anchor | ConvertTo-Json -Compress)"
+            }
+
+            $new = [System.Collections.ArrayList]@()
+            for ($i = 0; $i -le $at; $i++) { $null = $new.Add($arr[$i]) }
+            foreach ($it in $items)        { $null = $new.Add($it) }
+            for ($i = $at + 1; $i -lt $arr.Count; $i++) { $null = $new.Add($arr[$i]) }
+
+            Set-PathValue $base $arrPath @($new)
+            Remove-PathValue $overlay $arrPath
+        }
+    }
+
+    $merged = Merge-ConfigObject $base $overlay
+    $json   = $merged | ConvertTo-Json -Depth 100
     [System.IO.File]::WriteAllText($Path, $json, (New-Object System.Text.UTF8Encoding($false)))
     return $true
 }

@@ -52,7 +52,9 @@
 | 状态面板 | PID、内存、运行时长、TUN 网卡、端口、连通性——全在一屏 |
 | 节点测速 | `[12]` 全节点并发测速，几秒出排序结果，直接选最快的切过去 |
 | 节点切换 | 内置 YACD 面板，`http://127.0.0.1:9090/ui` |
-| 订阅更新 | 从服务商拉取最新配置，自动验证，失败自动回滚 |
+| 订阅更新 | 从服务商拉取最新配置，自动合并本地定制，校验失败或启动失败均自动回滚 |
+| 内核升级 | `[14]` 从 GitHub 拉最新 sing-box，**先用新内核验证现有配置**再替换 |
+| 分流模式 | `[13]` rule / global / direct 热切换，无需改配置或重启 |
 | 开机自启 | Windows 计划任务，SYSTEM 权限，崩溃重试 ×3 |
 
 #### 🛡️ 看门狗
@@ -76,6 +78,27 @@
 浏览器里的面板测速受限于「同源 HTTP/1.1 最多 6 条连接」，几十个节点只能 6 个一批排队，死节点还要各自吃满 5 秒超时——实测 43 个节点要 17.6 秒。
 
 `[12]` 直接打 Clash API，32 路并发，**同样 43 个节点 5.5 秒测完**，按延迟排序输出，超时节点单独列出。可以直接输入序号切换，或按 `f` 一键切到最快，`g` 换目标分组。
+
+#### 🧩 本地覆盖层 `config.local.json`
+
+机场订阅是原样生成的，直接覆盖 `config.json` 会冲掉你的本地定制（日志输出、TUN 网卡名等）——这正是很多人配置越拖越"祖传"、不敢更新的原因。
+
+把定制写进 `config.local.json`，每次 `[5]` 更新后自动合并回去：
+
+```jsonc
+{
+  "$replace": ["dns"],                                  // 整块替换（合并删不掉字段）
+  "$insertAfter": { "route.rules": { "action": "hijack-dns" } },  // 按锚点插入，不写死下标
+  "log": { "output": "sing-box.log" },
+  "inbounds": [ { "tag": "tun-in", "interface_name": "sing-box-tun" } ]
+}
+```
+
+- 对象递归合并；数组**按 `tag` 配对**合并（sing-box 的 inbounds/outbounds 都有 tag），不会把 3 个入站合成 4 个
+- `$replace` 用于整块替换——合并只能新增/覆盖，删不掉字段，而 DNS 迁移到新格式必须删掉旧的 `address`/`fakeip`
+- `$insertAfter` 用于往有序数组插元素。`route.rules` 首个匹配生效：`clash_mode` 规则追加到末尾永远轮不到，插到最前面又会让 DNS 查询被当普通流量代理走。锚点按内容找（"插在最后一条 hijack-dns 之后"），机场增删规则也不会错位
+
+合并在**校验之前**执行，覆盖层写错会被 `sing-box check` 拦下并回滚。
 
 #### 🌐 DNS 工具
 
@@ -134,7 +157,9 @@ singpilot/
 │   ├── sysproxy.ps1         ← 系统代理开关
 │   ├── dnstool.ps1          ← DNS 工具
 │   ├── logview.ps1          ← 日志查看
-│   └── speedtest.ps1        ← 并发测速 + 选节点
+│   ├── speedtest.ps1        ← 并发测速 + 选节点
+│   ├── mode.ps1             ← 分流模式切换
+│   └── updatecore.ps1       ← sing-box 内核升级
 │
 ├── ui/                      ← YACD 面板
 ├── logs/                    ← watchdog.log
@@ -183,8 +208,11 @@ No Electron. No Node.js. No bloat. Just scripts that give sing-box a clean termi
 
 ### Features
 
-- **Interactive Menu** — `manage.bat` with 12 options: Start, Stop, Status, Nodes, Update, Watchdog, Autostart, Setup, System Proxy, DNS Tools, Log Viewer, Speed Test
+- **Interactive Menu** — `manage.bat` with 14 options: Start, Stop, Status, Nodes, Update, Watchdog, Autostart, Setup, System Proxy, DNS Tools, Log Viewer, Speed Test, Proxy Mode, Update Core
 - **Speed Test** — Tests every node concurrently against the Clash API (43 nodes in ~5s, vs ~18s in a browser dashboard capped at 6 connections per origin). Ranks by latency, then switch with one keypress — or `f` for the fastest.
+- **Local Overlay** — Your provider's subscription overwrites `config.json` on every update, wiping local customizations. Put them in `config.local.json` and they are re-merged after each pull — with `$replace` for whole-block swaps and `$insertAfter` for anchored inserts into ordered arrays.
+- **Update Core** — Pulls the latest sing-box from GitHub, but validates your existing config against the **new** binary before swapping it in, and rolls back if the service fails to start.
+- **Proxy Mode** — Hot-switch rule/global/direct via the Clash API. Note: sing-box has no built-in modes — they only exist if `route.rules` define them via `clash_mode`, which the overlay adds for you.
 - **Watchdog** — 3 Windows Scheduled Tasks: health check every 5min, daily restart at 4am, auto-restart if memory exceeds 600MB
 - **System Proxy** — Toggle Windows system proxy on/off; the local proxy port is auto-detected from your `config.json` mixed inbound
 - **DNS Tools** — View current DNS config + benchmark Ali/Tencent/Google DNS latency

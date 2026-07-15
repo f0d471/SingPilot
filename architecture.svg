@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 624" font-family="'Segoe UI', 'Inter', system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 662" font-family="'Segoe UI', 'Inter', system-ui, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0d1424"/>
@@ -21,8 +21,8 @@
     </filter>
   </defs>
 
-  <rect width="880" height="624" rx="16" fill="url(#bg)"/>
-  <rect x="0.5" y="0.5" width="879" height="623" rx="16" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <rect width="880" height="662" rx="16" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="879" height="661" rx="16" fill="none" stroke="#1e293b" stroke-width="1"/>
 
   <!-- ===== Header ===== -->
   <circle cx="42" cy="42" r="11" fill="none" stroke="url(#brand)" stroke-width="2.5"/>
@@ -53,7 +53,7 @@
 
   <!-- ===== Row B: Control plane ===== -->
   <g filter="url(#soft)">
-    <rect x="40" y="170" width="800" height="192" rx="12" fill="#111a2b" stroke="#2b3a55"/>
+    <rect x="40" y="170" width="800" height="230" rx="12" fill="#111a2b" stroke="#2b3a55"/>
   </g>
   <text x="58" y="196" font-size="13" font-weight="600" fill="#cbd5e1">manage.bat → menu.ps1</text>
   <text x="58" y="212" font-size="10.5" fill="#64748b">interactive menu engine</text>
@@ -92,46 +92,53 @@
     <text x="439" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[11]</tspan> Logs</text>
     <rect x="500" y="262" width="212" height="30" rx="7" fill="#1b2436" stroke="#5a4a2a"/>
     <text x="606" y="281" text-anchor="middle"><tspan fill="#fbbf24" font-weight="700">[12]</tspan> Speed Test / Switch Node</text>
-    <rect x="722" y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="772" y="281" text-anchor="middle"><tspan fill="#fb7185" font-weight="700">[0]</tspan> Exit</text>
+    <rect x="722" y="262" width="101" height="30" rx="7" fill="#1b2436" stroke="#5a4a2a"/>
+    <text x="772" y="281" text-anchor="middle"><tspan fill="#fbbf24" font-weight="700">[13]</tspan> Mode</text>
+  </g>
+  <!-- action pills row 3 -->
+  <g font-size="11" fill="#dbe4f0">
+    <rect x="56"  y="300" width="156" height="30" rx="7" fill="#1b2436" stroke="#5a4a2a"/>
+    <text x="134" y="319" text-anchor="middle"><tspan fill="#fbbf24" font-weight="700">[14]</tspan> Update Core</text>
+    <rect x="222" y="300" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="272" y="319" text-anchor="middle"><tspan fill="#fb7185" font-weight="700">[0]</tspan> Exit</text>
   </g>
   <!-- shared core strip -->
-  <rect x="56" y="306" width="768" height="38" rx="8" fill="#0e1626" stroke="#243349"/>
-  <text x="72" y="329" font-size="11.5" fill="#7dd3fc" font-weight="600">env.ps1</text>
-  <text x="132" y="329" font-size="11" fill="#8ba0bd">shared core — state snapshot · auto port detection · config parsing · path resolution</text>
+  <rect x="56" y="344" width="768" height="38" rx="8" fill="#0e1626" stroke="#243349"/>
+  <text x="72" y="367" font-size="11.5" fill="#7dd3fc" font-weight="600">env.ps1</text>
+  <text x="132" y="367" font-size="11" fill="#8ba0bd">shared core — state snapshot · auto port detection · config parsing · path resolution</text>
 
   <!-- arrows to engine -->
-  <line x1="235" y1="362" x2="235" y2="392" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
-  <line x1="645" y1="362" x2="645" y2="392" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="235" y1="400" x2="235" y2="430" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="645" y1="400" x2="645" y2="430" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
 
   <!-- ===== Row C: engine (user-supplied) ===== -->
   <g filter="url(#soft)">
-    <rect x="40" y="394" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
-    <rect x="450" y="394" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
+    <rect x="40" y="432" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
+    <rect x="450" y="432" width="390" height="80" rx="12" fill="url(#engine)" stroke="#1c6b63"/>
   </g>
-  <text x="235" y="422" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">sing-box.exe</text>
-  <text x="235" y="441" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you download it from the official releases</text>
-  <text x="235" y="459" text-anchor="middle" font-size="10.5" fill="#5eead4">TUN · DNS · Routing · Clash API</text>
+  <text x="235" y="460" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">sing-box.exe</text>
+  <text x="235" y="479" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you download it from the official releases</text>
+  <text x="235" y="497" text-anchor="middle" font-size="10.5" fill="#5eead4">TUN · DNS · Routing · Clash API</text>
 
-  <text x="645" y="422" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">config.json</text>
-  <text x="645" y="441" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you bring it from your provider</text>
-  <text x="645" y="459" text-anchor="middle" font-size="10.5" fill="#5eead4">Inbounds · Outbounds · Rules · DNS</text>
+  <text x="645" y="460" text-anchor="middle" font-size="15" font-weight="700" fill="#ecfdf5">config.json</text>
+  <text x="645" y="479" text-anchor="middle" font-size="10.5" fill="#7fd8c8">you bring it from your provider</text>
+  <text x="645" y="497" text-anchor="middle" font-size="10.5" fill="#5eead4">Inbounds · Outbounds · Rules · DNS</text>
 
   <!-- arrows to guardian band -->
-  <line x1="235" y1="474" x2="235" y2="502" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
-  <line x1="645" y1="474" x2="645" y2="502" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="235" y1="512" x2="235" y2="540" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="645" y1="512" x2="645" y2="540" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
 
   <!-- ===== Row D: guardian + dashboard ===== -->
-  <rect x="40" y="504" width="520" height="82" rx="12" fill="#141726" stroke="#3b2f5e"/>
-  <text x="60" y="528" font-size="13" font-weight="600" fill="#c4b5fd">🛡 Guardian — Windows Scheduled Tasks</text>
-  <text x="60" y="549" font-size="10.5" fill="#94a3b8">Health check every 5 min · daily restart 4 AM · memory guard every 10 min</text>
-  <text x="60" y="567" font-size="10.5" fill="#94a3b8">Auto-restart on freeze · rotates sing-box.log · boot autostart (SYSTEM)</text>
+  <rect x="40" y="542" width="520" height="82" rx="12" fill="#141726" stroke="#3b2f5e"/>
+  <text x="60" y="566" font-size="13" font-weight="600" fill="#c4b5fd">🛡 Guardian — Windows Scheduled Tasks</text>
+  <text x="60" y="587" font-size="10.5" fill="#94a3b8">Health check every 5 min · daily restart 4 AM · memory guard every 10 min</text>
+  <text x="60" y="605" font-size="10.5" fill="#94a3b8">Auto-restart on freeze · rotates sing-box.log · boot autostart (SYSTEM)</text>
 
-  <rect x="580" y="504" width="260" height="82" rx="12" fill="#0f1f1c" stroke="#1c6b63"/>
-  <text x="600" y="528" font-size="13" font-weight="600" fill="#5eead4">📊 YACD Dashboard</text>
-  <text x="600" y="549" font-size="10.5" fill="#94a3b8">http://127.0.0.1:9090/ui</text>
-  <text x="600" y="567" font-size="10.5" fill="#94a3b8">Proxies · Rules · Connections · Logs</text>
+  <rect x="580" y="542" width="260" height="82" rx="12" fill="#0f1f1c" stroke="#1c6b63"/>
+  <text x="600" y="566" font-size="13" font-weight="600" fill="#5eead4">📊 YACD Dashboard</text>
+  <text x="600" y="587" font-size="10.5" fill="#94a3b8">http://127.0.0.1:9090/ui</text>
+  <text x="600" y="605" font-size="10.5" fill="#94a3b8">Proxies · Rules · Connections · Logs</text>
 
   <!-- footer -->
-  <text x="440" y="608" text-anchor="middle" font-size="10.5" fill="#546178">Every function is a file or a command — humans and AI agents drive the exact same controls.</text>
+  <text x="440" y="646" text-anchor="middle" font-size="10.5" fill="#546178">Every function is a file or a command — humans and AI agents drive the exact same controls.</text>
 </svg>

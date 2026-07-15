@@ -78,7 +78,25 @@ Write-Host "Starting..." -ForegroundColor Yellow
 Start-Process -FilePath $SingBoxExe -ArgumentList "run", "-c", $ConfigPath -Verb RunAs -WindowStyle Hidden -WorkingDirectory $ToolkitRoot
 Start-Sleep -Seconds 3
 $p = Get-Process -Name "sing-box" -ErrorAction SilentlyContinue
-if ($p) { Write-Host "OK: Updated and restarted (PID: $($p.Id))" -ForegroundColor Green }
-else { Write-Host "FAIL: Start failed" -ForegroundColor Red }
+if ($p) {
+    Write-Host "OK: Updated and restarted (PID: $($p.Id))" -ForegroundColor Green
+} else {
+    # check 通过不代表起得来：有些错误只在启动时暴露
+    # （比如新版 DNS 格式下 detour 指向空 direct 出站，check 不报、启动直接 FATAL）。
+    # 起不来就把配置换回去 —— 断网比订阅旧严重得多。
+    Write-Host "FAIL: 新配置启动失败，正在回滚..." -ForegroundColor Red
+    if (Test-Path $ConfigBackup) {
+        Copy-Item $ConfigBackup $ConfigPath -Force
+        Start-Process -FilePath $SingBoxExe -ArgumentList "run", "-c", $ConfigPath -Verb RunAs -WindowStyle Hidden -WorkingDirectory $ToolkitRoot
+        Start-Sleep -Seconds 3
+        if (Get-Process -Name "sing-box" -ErrorAction SilentlyContinue) {
+            Write-Host "已回滚到更新前的配置并重启。" -ForegroundColor Yellow
+        } else {
+            Write-Host "回滚后仍未启动，请手动运行 [1] Start。" -ForegroundColor Red
+        }
+    } else {
+        Write-Host "没有备份可回滚。" -ForegroundColor Red
+    }
+}
 Write-Host ""
 Read-Host "Press Enter to return"

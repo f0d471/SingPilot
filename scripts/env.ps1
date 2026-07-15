@@ -219,6 +219,25 @@ function Get-ConfigCapabilities {
     }
 }
 
+# ---- 工具箱状态（订阅地址、节点偏好等） ----
+# 存在 logs\toolkit-state.json。注意写入要用 Set-ToolkitState 做增量更新，
+# 直接 ConvertTo-Json 整个覆盖会把别的键冲掉。
+function Get-ToolkitState {
+    if (-not (Test-Path $StateFile)) { return [PSCustomObject]@{} }
+    try {
+        $s = Get-Content $StateFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($null -eq $s) { return [PSCustomObject]@{} }
+        return $s
+    } catch { return [PSCustomObject]@{} }
+}
+
+function Set-ToolkitState {
+    param([string]$Name, $Value)
+    $s = Get-ToolkitState
+    $s | Add-Member -NotePropertyName $Name -NotePropertyValue $Value -Force
+    $s | ConvertTo-Json -Depth 10 | Out-File $StateFile -Encoding utf8
+}
+
 # ---- 本地覆盖层 ----
 # 订阅是机场原样生成的，会冲掉本地定制（日志输出、TUN 网卡名等）。
 # config.local.json 里的设置在每次更新后重新合并回去，这样定制不会丢。

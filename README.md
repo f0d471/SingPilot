@@ -79,6 +79,18 @@
 
 `[12]` 直接打 Clash API，32 路并发，**同样 43 个节点 5.5 秒测完**，按延迟排序输出，超时节点单独列出。可以直接输入序号切换，或按 `f` 一键切到最快，`g` 换目标分组。
 
+#### 📍 偏好地区
+
+**只要该地区还有活节点，就一直用该地区最快的；全挂了才退到兜底。**
+
+`[12]` 里按 `p` 设置（比如 `SG`）。之后看门狗每次检查都会强制执行，掉了会自动拉回来。
+
+为什么不能靠配置实现：sing-box 的 `urltest` 只认延迟、不认地区（JP 比 SG 快就会选 JP）；`selector` 固定选一个、节点挂了也不会转移。两者都表达不了"优先某地区"，所以只能在外面定期强制。
+
+- 该地区有活节点 → 选其中最快的
+- 全部不可用 → 退到 `urltest` 分组（它自己会定期重测、自愈），没有就退到全局最快
+- **带容差**（默认 100ms）：新节点要快过当前 100ms 才切。同地区节点延迟常在几十 ms 内浮动，不加容差看门狗每 5 分钟就会横跳一次，每次都断连接
+
 #### 🧩 本地覆盖层 `config.local.json`
 
 机场订阅是原样生成的，直接覆盖 `config.json` 会冲掉你的本地定制（日志输出、TUN 网卡名等）——这正是很多人配置越拖越"祖传"、不敢更新的原因。
@@ -213,6 +225,7 @@ No Electron. No Node.js. No bloat. Just scripts that give sing-box a clean termi
 - **Local Overlay** — Your provider's subscription overwrites `config.json` on every update, wiping local customizations. Put them in `config.local.json` and they are re-merged after each pull — with `$replace` for whole-block swaps and `$insertAfter` for anchored inserts into ordered arrays.
 - **Update Core** — Pulls the latest sing-box from GitHub, but validates your existing config against the **new** binary before swapping it in, and rolls back if the service fails to start.
 - **Proxy Mode** — Hot-switch rule/global/direct via the Clash API. Note: sing-box has no built-in modes — they only exist if `route.rules` define them via `clash_mode`, which the overlay adds for you.
+- **Preferred Region** — Pin a region (e.g. `SG`): as long as it has a live node you get its fastest one; if the whole region dies it falls back to the urltest group, and it is pulled back automatically once the region recovers. Enforced by the watchdog, with a 100ms tolerance so it doesn't flap between two equally fast nodes.
 - **Watchdog** — 3 Windows Scheduled Tasks: health check every 5min, daily restart at 4am, auto-restart if memory exceeds 600MB
 - **System Proxy** — Toggle Windows system proxy on/off; the local proxy port is auto-detected from your `config.json` mixed inbound
 - **DNS Tools** — View current DNS config + benchmark Ali/Tencent/Google DNS latency

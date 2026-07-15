@@ -32,7 +32,11 @@ if (-not $subUrl) {
     $subUrl = Read-Host "URL"
     if (-not $subUrl) { Write-Host "Cancelled" -ForegroundColor Red; Read-Host "Press Enter to return"; exit 1 }
 }
-try { @{ subscriptionUrl = $subUrl; lastUpdate = (Get-Date -Format "yyyy-MM-dd HH:mm:ss") } | ConvertTo-Json | Out-File $StateFile -Encoding utf8 } catch { }
+# 增量写，别整个覆盖 —— state 里还存着节点偏好等设置
+try {
+    Set-ToolkitState 'subscriptionUrl' $subUrl
+    Set-ToolkitState 'lastUpdate' (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+} catch { }
 
 $old = Get-Process -Name "sing-box" -ErrorAction SilentlyContinue
 if ($old) { Write-Host "Stopping..." -ForegroundColor Yellow; $old | Stop-Process -Force; Start-Sleep -Seconds 1 }

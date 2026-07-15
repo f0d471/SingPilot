@@ -163,7 +163,28 @@ function Invoke-SingleCheck {
     } else {
         Write-Log "DEBUG" "All OK"
     }
+
+    # 进程活着才谈得上选节点
+    if (Test-SingBoxRunning) { Invoke-PreferCheck }
     return $healthy
+}
+
+# 偏好地区：只要该地区还有活节点就拉回去，全挂了才退到兜底。
+# 只测该地区那几个节点，很快；没设偏好就直接跳过。
+function Invoke-PreferCheck {
+    $region = (Get-ToolkitState).preferredRegion
+    if (-not $region) { return }
+    try {
+        $out = & "$ScriptDir\speedtest.ps1" -Enforce 2>&1
+        foreach ($line in @($out)) {
+            $s = "$line"
+            if ($s -match 'changed=True')  { Write-Log "INFO"  "Prefer[$region] $s" }
+            elseif ($s -match 'changed=False') { Write-Log "DEBUG" "Prefer[$region] $s" }
+            elseif ($s) { Write-Log "WARN" "Prefer[$region] $s" }
+        }
+    } catch {
+        Write-Log "WARN" "Prefer check failed: $($_.Exception.Message)"
+    }
 }
 
 # ========== 安装计划任务 ==========

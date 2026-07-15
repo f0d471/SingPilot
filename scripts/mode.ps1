@@ -57,8 +57,11 @@ if (-not $pick) { return }
 
 try {
     $body = @{ mode = $pick.Name } | ConvertTo-Json -Compress
+    # 模式名都是 ASCII，这里其实不会出问题，但统一用 UTF-8 字节，
+    # 免得以后照抄这段去发含中文的 body（见 speedtest.ps1 的 Set-GroupNode）
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
     Invoke-RestMethod "$($api.BaseUrl)/configs" -Method PATCH -Headers $api.Headers `
-        -Body $body -ContentType "application/json" | Out-Null
+        -Body $bytes -ContentType "application/json" | Out-Null
     $now = (Invoke-RestMethod "$($api.BaseUrl)/configs" -Headers $api.Headers -TimeoutSec 5).mode
     Write-Host ""
     Write-Host "  模式已切换: $now" -ForegroundColor Green

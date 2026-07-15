@@ -219,6 +219,65 @@ function Get-ConfigCapabilities {
     }
 }
 
+# ---- 本地覆盖层 ----
+# 订阅是机场原样生成的，会冲掉本地定制（日志输出、TUN 网卡名等）。
+# config.local.json 里的设置在每次更新后重新合并回去，这样定制不会丢。
+# 合并规则：对象递归合并；数组按 tag 配对合并（sing-box 的 inbounds/outbounds 都有 tag），
+# overlay 里 tag 对不上的元素追加到末尾；其余类型直接覆盖。
+function Merge-ConfigObject {
+    param($Base, $Overlay)
+
+    if ($Overlay -is [System.Management.Automation.PSCustomObject] -and
+        $Base    -is [System.Management.Automation.PSCustomObject]) {
+        foreach ($prop in $Overlay.PSObject.Properties) {
+            $name = $prop.Name
+            if ($Base.PSObject.Properties.Name -contains $name) {
+                $Base.$name = Merge-ConfigObject $Base.$name $prop.Value
+            } else {
+                $Base | Add-Member -NotePropertyName $name -NotePropertyValue $prop.Value -Force
+            }
+        }
+        return $Base
+    }
+
+    if ($Overlay -is [Array] -and $Base -is [Array]) {
+        $result = [System.Collections.ArrayList]@($Base)
+        foreach ($item in $Overlay) {
+            $tag = $null
+            if ($item -is [System.Management.Automation.PSCustomObject] -and
+                $item.PSObject.Properties.Name -contains 'tag') { $tag = $item.tag }
+            $idx = -1
+            if ($tag) {
+                for ($i = 0; $i -lt $result.Count; $i++) {
+                    $b = $result[$i]
+                    if ($b -is [System.Management.Automation.PSCustomObject] -and
+                        $b.PSObject.Properties.Name -contains 'tag' -and $b.tag -eq $tag) { $idx = $i; break }
+                }
+            }
+            if ($idx -ge 0) { $result[$idx] = Merge-ConfigObject $result[$idx] $item }
+            else { $null = $result.Add($item) }
+        }
+        return @($result)
+    }
+
+    # 标量 / 类型不一致 —— overlay 说了算
+    return $Overlay
+}
+
+$Script:ConfigLocal = Join-Path $ToolkitRoot "config.local.json"
+
+# 把 config.local.json 合并进指定的配置文件（原地改写）。返回是否真的合并了。
+function Merge-LocalOverrides {
+    param([string]$Path)
+    if (-not (Test-Path $ConfigLocal)) { return $false }
+    $overlay = Get-Content $ConfigLocal -Raw -Encoding UTF8 | ConvertFrom-Json
+    $base    = Get-Content $Path -Raw -Encoding UTF8 | ConvertFrom-Json
+    $merged  = Merge-ConfigObject $base $overlay
+    $json    = $merged | ConvertTo-Json -Depth 100
+    [System.IO.File]::WriteAllText($Path, $json, (New-Object System.Text.UTF8Encoding($false)))
+    return $true
+}
+
 # ---- Clash API 入口 ----
 # 统一解析 external_controller / secret，避免各脚本自己拼地址。
 # 返回 $null 表示配置里没开 clash_api。

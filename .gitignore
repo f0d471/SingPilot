@@ -2,6 +2,7 @@
 sing-box.exe
 config.json
 config.backup.json
+config.local.json
 
 # 运行时数据
 logs/

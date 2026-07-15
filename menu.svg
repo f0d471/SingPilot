@@ -30,13 +30,13 @@
   <!-- status block -->
   <g font-size="12.5">
     <text x="28"  y="110" fill="#6b7688">sing-box.exe</text>
-    <text x="168" y="110" fill="#4ade80">OK  v1.12.0</text>
+    <text x="168" y="110" fill="#4ade80">OK  v1.13.14</text>
     <text x="28"  y="132" fill="#6b7688">config.json</text>
-    <text x="168" y="132" fill="#4ade80">OK  ·  TUN · ClashAPI · Routing · 43 nodes</text>
+    <text x="168" y="132" fill="#4ade80">OK  ·  TUN · ClashAPI · Routing · 52 nodes</text>
     <text x="28"  y="154" fill="#6b7688">status</text>
     <text x="168" y="154" fill="#4ade80">RUNNING  ·  PID 30012 · 49.9 MB · up 2h 14m</text>
     <text x="28"  y="176" fill="#6b7688">services</text>
-    <text x="168" y="176" fill="#c4b5fd">Watchdog 3/3  ·  Autostart ON</text>
+    <text x="168" y="176" fill="#c4b5fd">Watchdog 3/3  ·  Autostart ON  ·  Prefer SG</text>
   </g>
   <line x1="28" y1="192" x2="692" y2="192" stroke="#1e2636" stroke-width="1"/>
 
@@ -47,8 +47,8 @@
     <text x="40"  y="268"><tspan fill="#38bdf8">[3]</tspan>  View Status</text>
     <text x="40"  y="292"><tspan fill="#38bdf8">[4]</tspan>  Switch Nodes</text>
     <text x="40"  y="316"><tspan fill="#38bdf8">[5]</tspan>  Update Config</text>
-    <text x="40"  y="340"><tspan fill="#a78bfa">[6]</tspan>  Install Watchdog</text>
-    <text x="40"  y="364"><tspan fill="#a78bfa">[7]</tspan>  Enable Autostart</text>
+    <text x="40"  y="340"><tspan fill="#a78bfa">[6]</tspan>  Remove Watchdog</text>
+    <text x="40"  y="364"><tspan fill="#a78bfa">[7]</tspan>  Disable Autostart</text>
 
     <text x="392" y="220"><tspan fill="#a78bfa">[8]</tspan>&#160; Setup Wizard</text>
     <text x="392" y="244"><tspan fill="#34d399">[9]</tspan>&#160; System Proxy</text>

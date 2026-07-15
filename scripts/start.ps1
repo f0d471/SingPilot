@@ -1,4 +1,4 @@
-# SingPilot - Start Proxy
+﻿# SingPilot - Start Proxy
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
 . "$ScriptDir\env.ps1"
 

@@ -1,4 +1,4 @@
-# ============================================================
+﻿# ============================================================
 # SingPilot - 环境检测核心
 # 所有脚本通过 ". $PSScriptRoot\env.ps1" 引入
 # ============================================================
@@ -217,6 +217,27 @@ function Get-ConfigCapabilities {
     } catch {
         return @{ Valid = $false; Error = $_.Exception.Message }
     }
+}
+
+# ---- Clash API 入口 ----
+# 统一解析 external_controller / secret，避免各脚本自己拼地址。
+# 返回 $null 表示配置里没开 clash_api。
+function Get-ClashApi {
+    $caps = Get-ConfigCapabilities
+    if (-not $caps.HasClashAPI) { return $null }
+    try {
+        $json = Get-Content $ConfigPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        $ctl = $json.experimental.clash_api.external_controller
+        # external_controller 可能写成 ":9090" 或 "0.0.0.0:9090"，都从本机访问
+        $port = ($ctl -split ':')[-1]
+        $headers = @{}
+        $secret = $json.experimental.clash_api.secret
+        if ($secret) { $headers['Authorization'] = "Bearer $secret" }
+        return @{
+            BaseUrl = "http://127.0.0.1:$port"
+            Headers = $headers
+        }
+    } catch { return $null }
 }
 
 # ---- 看门狗状态 ----

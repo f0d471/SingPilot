@@ -61,36 +61,39 @@
   <circle cx="612" cy="192" r="4" fill="#38bdf8"/><text x="622" y="196" font-size="10" fill="#8ba0bd">proxy</text>
   <circle cx="672" cy="192" r="4" fill="#a78bfa"/><text x="682" y="196" font-size="10" fill="#8ba0bd">lifecycle</text>
   <circle cx="748" cy="192" r="4" fill="#34d399"/><text x="758" y="196" font-size="10" fill="#8ba0bd">tools</text>
+  <circle cx="800" cy="192" r="4" fill="#fbbf24"/><text x="810" y="196" font-size="10" fill="#8ba0bd">speed</text>
 
   <!-- action pills row 1 -->
-  <g font-size="11.5" fill="#dbe4f0">
-    <rect x="56"  y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="115" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[1]</tspan> Start</text>
-    <rect x="186" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="245" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[2]</tspan> Stop</text>
-    <rect x="316" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="375" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[3]</tspan> Status</text>
-    <rect x="446" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="505" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[4]</tspan> Nodes</text>
-    <rect x="576" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="635" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[5]</tspan> Update</text>
-    <rect x="706" y="224" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="765" y="243" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[6]</tspan> Watchdog</text>
+  <g font-size="11" fill="#dbe4f0">
+    <rect x="56"  y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="106" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[1]</tspan> Start</text>
+    <rect x="167" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="217" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[2]</tspan> Stop</text>
+    <rect x="278" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="328" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[3]</tspan> Status</text>
+    <rect x="389" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="439" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[4]</tspan> Nodes</text>
+    <rect x="500" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="550" y="243" text-anchor="middle"><tspan fill="#38bdf8" font-weight="700">[5]</tspan> Update</text>
+    <rect x="611" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="661" y="243" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[6]</tspan> Watchdog</text>
+    <rect x="722" y="224" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="772" y="243" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[7]</tspan> Autostart</text>
   </g>
   <!-- action pills row 2 -->
-  <g font-size="11.5" fill="#dbe4f0">
-    <rect x="56"  y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="115" y="281" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[7]</tspan> Autostart</text>
-    <rect x="186" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="245" y="281" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[8]</tspan> Setup</text>
-    <rect x="316" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="375" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[9]</tspan> Sys Proxy</text>
-    <rect x="446" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="505" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[10]</tspan> DNS</text>
-    <rect x="576" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="635" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[11]</tspan> Logs</text>
-    <rect x="706" y="262" width="118" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
-    <text x="765" y="281" text-anchor="middle"><tspan fill="#fb7185" font-weight="700">[0]</tspan> Exit</text>
+  <g font-size="11" fill="#dbe4f0">
+    <rect x="56"  y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="106" y="281" text-anchor="middle"><tspan fill="#a78bfa" font-weight="700">[8]</tspan> Setup</text>
+    <rect x="167" y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="217" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[9]</tspan> Sys Proxy</text>
+    <rect x="278" y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="328" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[10]</tspan> DNS</text>
+    <rect x="389" y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="439" y="281" text-anchor="middle"><tspan fill="#34d399" font-weight="700">[11]</tspan> Logs</text>
+    <rect x="500" y="262" width="212" height="30" rx="7" fill="#1b2436" stroke="#5a4a2a"/>
+    <text x="606" y="281" text-anchor="middle"><tspan fill="#fbbf24" font-weight="700">[12]</tspan> Speed Test / Switch Node</text>
+    <rect x="722" y="262" width="101" height="30" rx="7" fill="#182338" stroke="#2b3a55"/>
+    <text x="772" y="281" text-anchor="middle"><tspan fill="#fb7185" font-weight="700">[0]</tspan> Exit</text>
   </g>
   <!-- shared core strip -->
   <rect x="56" y="306" width="768" height="38" rx="8" fill="#0e1626" stroke="#243349"/>

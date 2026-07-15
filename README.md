@@ -50,6 +50,7 @@
 |---|---|
 | 一键启停 | 双击 `manage.bat`，选择 [1] 或 [2] |
 | 状态面板 | PID、内存、运行时长、TUN 网卡、端口、连通性——全在一屏 |
+| 节点测速 | `[12]` 全节点并发测速，几秒出排序结果，直接选最快的切过去 |
 | 节点切换 | 内置 YACD 面板，`http://127.0.0.1:9090/ui` |
 | 订阅更新 | 从服务商拉取最新配置，自动验证，失败自动回滚 |
 | 开机自启 | Windows 计划任务，SYSTEM 权限，崩溃重试 ×3 |
@@ -69,6 +70,12 @@
 #### 🖥️ 系统代理开关
 
 一键切换 Windows 系统代理。不想用 TUN 模式时，让浏览器走本地代理端口（自动从 `config.json` 的 mixed 入站读取），其余应用直连。
+
+#### ⚡ 节点测速
+
+浏览器里的面板测速受限于「同源 HTTP/1.1 最多 6 条连接」，几十个节点只能 6 个一批排队，死节点还要各自吃满 5 秒超时——实测 43 个节点要 17.6 秒。
+
+`[12]` 直接打 Clash API，32 路并发，**同样 43 个节点 5.5 秒测完**，按延迟排序输出，超时节点单独列出。可以直接输入序号切换，或按 `f` 一键切到最快，`g` 换目标分组。
 
 #### 🌐 DNS 工具
 
@@ -126,7 +133,8 @@ singpilot/
 │   ├── watchdog.ps1         ← 健康守护
 │   ├── sysproxy.ps1         ← 系统代理开关
 │   ├── dnstool.ps1          ← DNS 工具
-│   └── logview.ps1          ← 日志查看
+│   ├── logview.ps1          ← 日志查看
+│   └── speedtest.ps1        ← 并发测速 + 选节点
 │
 ├── ui/                      ← YACD 面板
 ├── logs/                    ← watchdog.log
@@ -175,7 +183,8 @@ No Electron. No Node.js. No bloat. Just scripts that give sing-box a clean termi
 
 ### Features
 
-- **Interactive Menu** — `manage.bat` with 11 options: Start, Stop, Status, Nodes, Update, Watchdog, Autostart, Setup, System Proxy, DNS Tools, Log Viewer
+- **Interactive Menu** — `manage.bat` with 12 options: Start, Stop, Status, Nodes, Update, Watchdog, Autostart, Setup, System Proxy, DNS Tools, Log Viewer, Speed Test
+- **Speed Test** — Tests every node concurrently against the Clash API (43 nodes in ~5s, vs ~18s in a browser dashboard capped at 6 connections per origin). Ranks by latency, then switch with one keypress — or `f` for the fastest.
 - **Watchdog** — 3 Windows Scheduled Tasks: health check every 5min, daily restart at 4am, auto-restart if memory exceeds 600MB
 - **System Proxy** — Toggle Windows system proxy on/off; the local proxy port is auto-detected from your `config.json` mixed inbound
 - **DNS Tools** — View current DNS config + benchmark Ali/Tencent/Google DNS latency

@@ -94,6 +94,7 @@ do {
     Show-MenuItem "9" "System Proxy" $ready
     Show-MenuItem "10" "DNS Tools" $ready
     Show-MenuItem "11" "Log Viewer" $ready
+    Show-MenuItem "12" "Speed Test / Switch Node" ($ready -and $state.IsRunning -and $state.Capabilities.HasClashAPI)
     Show-MenuItem "0" "Exit" $true
 
     Write-Host ""
@@ -110,7 +111,7 @@ do {
     }
 
     Write-Host ""
-    $choice = Read-Host "  Select [0-11]"
+    $choice = Read-Host "  Select [0-12]"
 
     switch ($choice) {
         "1" {
@@ -181,6 +182,10 @@ do {
         }
         "11" {
             & "$ScriptDir\logview.ps1"
+        }
+        "12" {
+            if (-not $state.IsRunning) { Write-Host "Proxy not running" -ForegroundColor Red; Pause-Menu; continue }
+            & "$ScriptDir\speedtest.ps1"
         }
         "0" {
             Write-Host ""; Write-Host "Bye!" -ForegroundColor Green

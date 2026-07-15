@@ -1,4 +1,4 @@
-# Sing-Box 开机自启管理
+﻿# Sing-Box 开机自启管理
 param([switch]$Remove)
 
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent

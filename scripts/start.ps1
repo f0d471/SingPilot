@@ -22,6 +22,8 @@ Start-Sleep -Seconds 3
 
 $p = Get-Process -Name "sing-box" -ErrorAction SilentlyContinue
 if ($p) {
+    # 手动启动 = 撤销"手动停止"，把守护交还给看门狗
+    Set-ToolkitState "manualStop" $false
     Write-Host "OK: Started (PID: $($p.Id))" -ForegroundColor Green
     Write-Host ""
     Write-Host "Browse the web directly, no proxy config needed." -ForegroundColor White

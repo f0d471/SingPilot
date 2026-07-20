@@ -10,7 +10,8 @@ param(
     [int]$MaxLogLines = 200,
     [switch]$SetupTask,
     [switch]$SetupTaskSilent,
-    [switch]$RemoveAll
+    [switch]$RemoveAll,
+    [switch]$DailyRestart
 )
 
 $ScriptDir = Split-Path $MyInvocation.MyCommand.Path -Parent
@@ -116,8 +117,36 @@ function Restart-SingBox {
     Start-SingBox
 }
 
+# 用户按 [2] 停止时 stop.ps1 会落下 manualStop 标记。没有它的话，看门狗分不清
+# "用户主动停的"和"进程崩了"，5 分钟后照样拉起来 —— 停不掉的代理。
+#
+# 标记必须能自我过期：只要进程又活着了（用户 [1] 启动、开机自启、4 点重启任务），
+# 就说明这次手动停止已经结束，立刻清掉恢复守护。否则标记会永久黏住，
+# 看门狗从此形同虚设 —— 比原来的 bug 更糟。
+function Test-ManualStop {
+    $manual = [bool](Get-ToolkitState).manualStop
+    if (-not $manual) { return $false }
+
+    if (Test-SingBoxRunning) {
+        Write-Log "INFO" "sing-box is running again, clearing manualStop flag"
+        # 看门狗是 SYSTEM 跑的，写 state 文件失败不该让整次体检崩掉。
+        # 清不掉就按"未停止"继续 —— 宁可守护照常跑，也不能让标记黏住把看门狗废掉。
+        try { Set-ToolkitState "manualStop" $false }
+        catch { Write-Log "WARN" "Failed to clear manualStop flag: $($_.Exception.Message)" }
+        return $false
+    }
+    return $true
+}
+
 function Invoke-SingleCheck {
     Write-Log "DEBUG" "Health check running..."
+
+    if (Test-ManualStop) {
+        $at = (Get-ToolkitState).manualStopAt
+        Write-Log "INFO" "Skipped: manually stopped at $at (use [1] to resume guarding)"
+        return $true
+    }
+
     $healthy = $true; $reason = ""
 
     if (-not (Test-SingBoxRunning)) {
@@ -256,7 +285,9 @@ function Install-ScheduledTasks {
     # Task 2: Daily restart at 4:00 AM
     if (-not $Silent) { Write-Host "2/3 Installing daily restart (4:00 AM)..." -ForegroundColor Yellow }
     $t2 = New-ScheduledTaskTrigger -Daily -At "04:00"
-    $a2 = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -Command `"Get-Process -Name sing-box -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2; Start-Process -FilePath '$SingBoxPath' -ArgumentList 'run', '-c', '$ConfigPath' -WorkingDirectory '$ToolkitRoot' -Verb RunAs -WindowStyle Hidden`""
+    # 调脚本而不是内联命令：内联版本无条件 Start，用户手动停了照样凌晨 4 点复活，
+    # 而且逻辑锁在计划任务里改不动也测不了。
+    $a2 = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$ScriptDir\watchdog.ps1`" -DailyRestart"
     $p2 = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
     $s2 = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -WakeToRun -ExecutionTimeLimit (New-TimeSpan -Minutes 2)
     if (Register-TaskSafe "Sing-Box-DailyRestart" $a2 $t2 $p2 $s2 "Sing-Box daily restart to prevent freeze" $Silent) { $okCount++ }
@@ -321,6 +352,19 @@ if ($SetupTaskSilent) {
 
 if ($RemoveAll) {
     Remove-AllTasks
+    exit 0
+}
+
+# 每日 4:00 主动重启，防慢性内存泄漏。用户手动停止期间跳过 —— 这个任务
+# 原本是无条件 Start，是"停了第二天早上又自己回来"的第二个来源。
+if ($DailyRestart) {
+    if (Test-ManualStop) {
+        $at = (Get-ToolkitState).manualStopAt
+        Write-Log "INFO" "Daily restart skipped: manually stopped at $at"
+        exit 0
+    }
+    Write-Log "INFO" "Daily scheduled restart"
+    Restart-SingBox
     exit 0
 }
 
